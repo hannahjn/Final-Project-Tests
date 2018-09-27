@@ -1,20 +1,60 @@
-<script src="https://aframe.io/releases/0.7.1/aframe.min.js"></script>
-<script src="https://google-ar.github.io/three.ar.js/dist/three.ar.js"></script>
-<script src="https://rawgit.com/chenzlabs/aframe-ar/827e9db/dist/aframe-ar.min.js"></script>
-<body>
-    <video id="camera--view" autoplay playsinline></video>
-  <a-scene ar>
-      <a-assets>
-          <a-video src="#camera--view"></a-video>
+<html lang=”en”>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Name of your awesome camera app -->
+    <!-- Link to your main style sheet-->
+    <!-- <link rel="stylesheet" href="style.css"> -->
 
-        </a-assets>
-    <a-box width="0.25" height="0.25" depth="0.25" position="-0.25 0.125 -0.75" rotation="0 45 0" color="#4CC3D9"></a-box>
-    <a-sphere position="0 0.3125 -1.25" radius="0.3125" color="#EF2D5E"></a-sphere>
-    <a-cylinder position="0.25 0.1875 -0.75" radius="0.125" height="0.375" color="#FFC65D"></a-cylinder>
-    <a-plane position="0 0 -1" rotation="-90 0 0" width="1" height="1" color="#7BC8A4" shadow></a-plane>
-  </a-scene>
-  <script>
-  // Set constraints for the video stream
+    <!-- AR scripts-->
+    <script src="https://aframe.io/releases/0.6.1/aframe.min.js"></script>
+    <script src="https://3d.io/releases/3dio-js/1.x.x-beta/3dio.min.js"></script>
+    <style>
+      a-scene {
+        height: 600px;
+        width: 600px;
+      }
+      video {
+        position: fixed;
+          height: 100%;
+          width: 100%;
+      }
+      .a-enter-vr {
+        display: none;
+      }
+      .a-canvas{
+          position: fixed;
+          height: 100%;
+          width: 100%;
+      }
+    </style>
+</head>
+
+
+<body>
+
+
+    <video id="camera--view" autoplay playsinline></video>
+    <a-scene  ar-raycaster raycaster cursor="fuse:false">
+        
+          <a-assets>
+            <a-video src="#camera--view"></a-video>
+
+          </a-assets>
+
+
+          <a-scene ar>
+              <a-box width="0.25" height="0.25" depth="0.25" position="-0.25 0.125 -0.75" rotation="0 45 0" color="#4CC3D9"></a-box>
+              <a-sphere position="0 0.3125 -1.25" radius="0.3125" color="#EF2D5E"></a-sphere>
+              <a-cylinder position="0.25 0.1875 -0.75" radius="0.125" height="0.375" color="#FFC65D"></a-cylinder>
+              <a-plane position="0 0 -1" rotation="-90 0 0" width="1" height="1" color="#7BC8A4" shadow></a-plane>
+            </a-scene>
+      </a-scene>
+
+        <button id="camera--trigger">Place the Item</button>
+    <script>
+    // Set constraints for the video stream
     var constraints = { video: { facingMode: "environment"}, audio: false };
 
     // Define constants
@@ -44,4 +84,6 @@
     window.addEventListener("load", cameraStart, false);
 
     </script>
+
 </body>
+</html>
