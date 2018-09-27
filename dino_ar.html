@@ -1,11 +1,14 @@
-
+<html lang=”en”></html>
 <script src="https://aframe.io/releases/0.7.1/aframe.min.js"></script>
 <script src="https://google-ar.github.io/three.ar.js/dist/three.ar.js"></script>
 <script src="https://rawgit.com/chenzlabs/aframe-ar/827e9db/dist/aframe-ar.min.js"></script>
 <script src="https://cdn.rawgit.com/donmccurdy/aframe-extras/cfe5f316/dist/aframe-extras.js"></script>
 <body>
+
+    <video id="camera--view" autoplay playsinline></video>
   <a-scene ar>
       <a-assets>
+          <a-video src="#camera--view"></a-video>
           <a-asset id="cesium-man" src="./CesiumMan.glb"></a-asset>
         </a-assets>
 
@@ -14,4 +17,37 @@
         </a-entity>
 
   </a-scene>
-</body>
+  <script>
+    // Set constraints for the video stream
+    var constraints = { video: { facingMode: "environment"}, audio: false };
+
+    // Define constants
+    const cameraView = document.querySelector("#camera--view"),
+        cameraOutput = document.querySelector("#camera--output"),
+        cameraSensor = document.querySelector("#camera--sensor"),
+        cameraTrigger = document.querySelector("#camera--trigger")
+    // Access the device camera and stream to cameraView
+    function cameraStart() {
+        navigator.mediaDevices
+            .getUserMedia(constraints)
+            .then(function(stream) {
+            track = stream.getTracks()[0];
+            cameraView.srcObject = stream;
+        })
+        .catch(function(error) {
+            console.error("Oops. Something is broken.", error);
+        });
+    }
+    cameraTrigger.onclick = function() {
+        cameraSensor.width = cameraView.videoWidth;
+        cameraSensor.height = cameraView.videoHeight;
+        cameraSensor.getContext("2d").drawImage(cameraView, 0, 0);
+        cameraOutput.src = cameraSensor.toDataURL("image/webp");
+        cameraOutput.classList.add("taken");
+    };
+    window.addEventListener("load", cameraStart, false);
+
+    </script>
+    </body>
+
+</html>
